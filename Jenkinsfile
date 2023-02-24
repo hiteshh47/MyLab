@@ -57,7 +57,7 @@ pipeline{
                    transfers: [sshTransfer(cleanRemote: false, excludes: '',
                    execCommand: 'ansible-playbook /opt/playbooks/deploy_to_nexus.yml -i /opt/playbooks/hosts',
                    execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false,
-                   patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false,)], 
+                   patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false)], 
                    usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 
 
@@ -73,7 +73,7 @@ pipeline{
                     transfers: [sshTransfer(cleanRemote: false, excludes: '',
                     execCommand: 'ansible-playbook /opt/playbooks deploy_to_docker.yml -i /opt/playbooks/hosts',
                     execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+',
-                    remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')],
+                    remoteDirectory: '', remoteDirectorySDF: false)],
                     usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 
 

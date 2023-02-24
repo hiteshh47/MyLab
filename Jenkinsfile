@@ -71,7 +71,7 @@ pipeline{
             steps{
                     sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Controller',
                     transfers: [sshTransfer(cleanRemote: false, excludes: '',
-                    execCommand: 'ansible-playbook /opt/playbooks deploy_to_docker.yml -i /opt/playbooks/hosts',
+                    execCommand: 'ansible-playbook /opt/playbooks/deploy_to_docker.yml -i /opt/playbooks/hosts',
                     execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+',
                     remoteDirectory: '', remoteDirectorySDF: false)],
                     usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])

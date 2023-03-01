@@ -32,7 +32,7 @@ pipeline{
             steps {
                 echo ' Static code analysis with Sonarqube'
                 withSonarQubeEnv('sonarqube')
-                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
 
 
             }

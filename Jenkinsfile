@@ -28,58 +28,14 @@ pipeline{
             }
         }
         // Stage3 : Testing
-        stage ('Publish to Nexus Repo'){
+        stage ('Publish to Sonarqube'){
             steps {
-
-                script {
-                def NexusRepo = Version.endsWith("SNAPSHOT") ? "dev-proj-SNAPSHOT" : "dev-proj"
-                nexusArtifactUploader artifacts: 
-                [[artifactId: "${ArtifactId}", 
-                classifier: '',
-                file: "target/${ArtifactId}-${Version}.war", 
-                type: 'war']],
-                credentialsId: '6c00c76e-7db1-4ea4-9059-22ef887ff0ec', 
-                groupId: "${GroupId}", 
-                nexusUrl: '44.206.249.123:8081', 
-                nexusVersion: 'nexus3', 
-                protocol: 'http', 
-                repository: "${NexusRepo}", 
-                version: "${Version}"
-                }
-
-            }
-        }
-
-        // Stahe4: Deploy to tomcat using ansible
-        stage('Deploy to Tomcat'){
-            steps{
-                   sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Controller', 
-                   transfers: [sshTransfer(cleanRemote: false, excludes: '',
-                   execCommand: 'ansible-playbook /opt/playbooks/deploy_to_nexus.yml -i /opt/playbooks/hosts',
-                   execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false,
-                   patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false)], 
-                   usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                echo ' Static code analysis with Sonarqube'
+                withSonarQubeEnv('sonarqube')
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
 
 
             }
-
-
-        }
-
-        // Stage5: Deploy to tomcat-docker image using ansible
-        stage('Deploy to Tomcat-docker image on docker host'){
-            steps{
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Controller',
-                    transfers: [sshTransfer(cleanRemote: false, excludes: '',
-                    execCommand: 'ansible-playbook /opt/playbooks/deploy_to_docker.yml -i /opt/playbooks/hosts',
-                    execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+',
-                    remoteDirectory: '', remoteDirectorySDF: false)],
-                    usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-
-
-            }
-
-
         }
 
 

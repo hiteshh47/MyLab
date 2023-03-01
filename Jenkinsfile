@@ -31,8 +31,9 @@ pipeline{
         stage ('Publish to Sonarqube'){
             steps {
                 echo ' Static code analysis with Sonarqube'
-                withSonarQubeEnv('sonarqube')
+                withSonarQubeEnv('sonarqube') {
                     sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                }
 
 
             }
